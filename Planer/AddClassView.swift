@@ -59,6 +59,7 @@ struct AddClassView: View {
                     VStack {
                         HStack {
                             Text("\(i + 1).")
+                                .padding(.trailing, 5)
                             TextField("Fach", text: .constant(""))
                                 .textFieldStyle(.roundedBorder)
                             Spacer()
