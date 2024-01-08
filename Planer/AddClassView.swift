@@ -29,49 +29,55 @@ struct AddClassView: View {
     ] // hier muss eine andere Idee gewählt werden. Dies ist schlechter Code.
     
     var body: some View {
-        ScrollView {
+        VStack {
             Picker("Tag", selection: $day) {
                 ForEach(["Mo", "Di", "Mi", "Do", "Fr"], id: \.self) { item in
                     Text(item)
                 }
             }
             .pickerStyle(.segmented)
-            
-            Text("Stundenplan für \(getFullDay())")
-                .font(.title)
-                .padding()
-            
-            HStack {
-                Text("Anzahl der Stunden:")
-                Picker("Anzahl Stunden", selection: $anzahlStunden) {
-                    ForEach(1..<11) { i in
-                        Text("\(i)")
-                    }
-                }
-            }
-            .padding()
-            ForEach(0...anzahlStunden, id: \.self) { i in
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 350, height: 50)
-                        .foregroundStyle(Color(uiColor: .systemBackground))
-                        .shadow(radius: 5)
-                    VStack {
-                        HStack {
-                            Text("\(i + 1).")
-                                .padding(.trailing, 5)
-                            TextField("Fach", text: .constant(""))
-                                .textFieldStyle(.roundedBorder)
-                            Spacer()
-                            DatePicker("Zeit", selection: $datePicker[i], displayedComponents: .hourAndMinute)
-                                .labelsHidden()
+            ScrollView {
+                Text("Stundenplan für \(getFullDay())")
+                    .font(.title)
+                    .padding()
+                
+                HStack {
+                    Text("Anzahl der Stunden:")
+                    Picker("Anzahl Stunden", selection: $anzahlStunden) {
+                        ForEach(1..<11) { i in
+                            Text("\(i)")
                         }
-                        .padding(.horizontal)
-                        .padding(.vertical, 10)
+                    }
+                    .pickerStyle(.wheel)
+                }
+                .padding(.horizontal)
+                .frame(width: 350, height: 75)
+                .background(Color(UIColor.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 5)
+                ForEach(0...anzahlStunden, id: \.self) { i in
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: 350, height: 50)
+                            .foregroundStyle(Color(uiColor: .systemBackground))
+                            .shadow(radius: 5)
+                        VStack {
+                            HStack {
+                                Text("\(i + 1).")
+                                    .padding(.trailing, 5)
+                                TextField("Fach", text: .constant(""))
+                                    .textFieldStyle(.roundedBorder)
+                                Spacer()
+                                DatePicker("Zeit", selection: $datePicker[i], displayedComponents: .hourAndMinute)
+                                    .labelsHidden()
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 10)
+                        }
                     }
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
         }
         .background(Color(UIColor.systemGray5))
         .toolbar {
@@ -95,7 +101,7 @@ struct AddClassView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.accentColor, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+    .toolbarColorScheme(.dark, for: .navigationBar)
     }
     
     func getFullDay() -> String {
