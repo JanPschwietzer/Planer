@@ -11,7 +11,7 @@ import SwiftUI
 struct PlanerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }
